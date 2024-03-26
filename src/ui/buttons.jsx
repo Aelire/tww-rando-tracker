@@ -23,10 +23,12 @@ class Buttons extends React.PureComponent {
       chartListOpen,
       settingsWindowOpen,
       onlyProgressLocations,
+      randomSettingsWindowOpen,
       toggleChartList,
       toggleSettingsWindow,
       toggleEntrances,
       toggleOnlyProgressLocations,
+      toggleRandomSettingsWindow,
       trackNonProgressCharts,
       viewingEntrances,
     } = this.props;
@@ -42,6 +44,9 @@ class Buttons extends React.PureComponent {
       trackNonProgressCharts
       || LogicHelper.anyProgressItemCharts()
     );
+    const randomSettingsWindowText = randomSettingsWindowOpen
+      ? 'Close Random Settings Window'
+      : 'Open Random Settings Window';
 
     return (
       <div className="buttons">
@@ -81,6 +86,12 @@ class Buttons extends React.PureComponent {
         >
           {settingsWindowText}
         </button>
+        <button
+          onClick={toggleRandomSettingsWindow}
+          type="button"
+        >
+          {randomSettingsWindowText}
+        </button>
       </div>
     );
   }
@@ -90,10 +101,12 @@ Buttons.propTypes = {
   chartListOpen: PropTypes.bool.isRequired,
   onlyProgressLocations: PropTypes.bool.isRequired,
   saveData: PropTypes.string.isRequired,
+  randomSettingsWindowOpen: PropTypes.bool.isRequired,
   settingsWindowOpen: PropTypes.bool.isRequired,
   toggleChartList: PropTypes.func.isRequired,
   toggleEntrances: PropTypes.func.isRequired,
   toggleOnlyProgressLocations: PropTypes.func.isRequired,
+  toggleRandomSettingsWindow: PropTypes.func.isRequired,
   toggleSettingsWindow: PropTypes.func.isRequired,
   trackNonProgressCharts: PropTypes.bool.isRequired,
   viewingEntrances: PropTypes.bool.isRequired,

@@ -5,12 +5,15 @@ import { Oval } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 
 import LogicHelper from '../services/logic-helper';
+import Settings from '../services/settings';
+import Spheres from '../services/spheres';
 import TrackerController from '../services/tracker-controller';
 
 import Buttons from './buttons';
 import Images from './images';
 import ItemsTable from './items-table';
 import LocationsTable from './locations-table';
+import RandomSettingsWindow from './random-settings-window';
 import SettingsWindow from './settings-window';
 import SphereTracking from './sphere-tracking';
 import Statistics from './statistics';
@@ -40,6 +43,7 @@ class Tracker extends React.PureComponent {
       openedExit: null,
       openedLocation: null,
       openedLocationIsDungeon: null,
+      randomSettingsWindowOpen: false,
       trackNonProgressCharts: false,
       trackSpheres: false,
       viewingEntrances: false,
@@ -56,6 +60,7 @@ class Tracker extends React.PureComponent {
     this.toggleEntrances = this.toggleEntrances.bind(this);
     this.toggleLocationChecked = this.toggleLocationChecked.bind(this);
     this.toggleOnlyProgressLocations = this.toggleOnlyProgressLocations.bind(this);
+    this.toggleRandomSettingsWindow = this.toggleRandomSettingsWindow.bind(this);
     this.toggleRequiredBoss = this.toggleRequiredBoss.bind(this);
     this.unsetChartMapping = this.unsetChartMapping.bind(this);
     this.unsetEntrance = this.unsetEntrance.bind(this);
@@ -64,6 +69,7 @@ class Tracker extends React.PureComponent {
     this.updateChartMapping = this.updateChartMapping.bind(this);
     this.updateExitForEntrance = this.updateExitForEntrance.bind(this);
     this.updateOpenedChartForIsland = this.updateOpenedChartForIsland.bind(this);
+    this.updateLogic = this.updateLogic.bind(this);
     this.updateOpenedEntrance = this.updateOpenedEntrance.bind(this);
     this.updateOpenedExit = this.updateOpenedExit.bind(this);
     this.updateOpenedLocation = this.updateOpenedLocation.bind(this);
@@ -384,8 +390,33 @@ class Tracker extends React.PureComponent {
     this.updatePreferences({ viewingEntrances: !viewingEntrances });
   }
 
+  toggleRandomSettingsWindow() {
+    const { randomSettingsWindowOpen } = this.state;
+
+    this.setState({
+      randomSettingsWindowOpen: !randomSettingsWindowOpen,
+    });
+  }
+
   unsetLastLocation() {
     this.setState({ lastLocation: null });
+  }
+
+  async updateLogic(options = {}) {
+    const { newCertainSettings, newOptions } = options;
+    const { trackerState } = this.state;
+
+    if (newOptions) {
+      Settings.updateOptions(newOptions);
+    }
+    if (newCertainSettings) {
+      Settings.updateCertainSettings(newCertainSettings);
+    }
+    await TrackerController.refreshLogic();
+
+    const { logic: newLogic } = TrackerController.refreshState(trackerState);
+
+    this.setState({ logic: newLogic, spheres: new Spheres(trackerState) });
   }
 
   updatePreferences(preferenceChanges) {
@@ -428,6 +459,7 @@ class Tracker extends React.PureComponent {
       openedLocation,
       openedLocationIsDungeon,
       saveData,
+      randomSettingsWindowOpen,
       settingsWindowOpen,
       spheres,
       trackNonProgressCharts,
@@ -523,16 +555,25 @@ class Tracker extends React.PureComponent {
               updatePreferences={this.updatePreferences}
             />
           )}
+          {randomSettingsWindowOpen && (
+            <RandomSettingsWindow
+              toggleRandomSettingsWindow={this.toggleRandomSettingsWindow}
+              updateLogic={this.updateLogic}
+            />
+          )}
           <Buttons
             settingsWindowOpen={settingsWindowOpen}
             chartListOpen={chartListOpen}
             onlyProgressLocations={onlyProgressLocations}
             saveData={saveData}
+            randomSettingsWindowOpen={randomSettingsWindowOpen}
             toggleChartList={this.toggleChartList}
             toggleSettingsWindow={this.toggleSettingsWindow}
             toggleEntrances={this.toggleEntrances}
             toggleOnlyProgressLocations={this.toggleOnlyProgressLocations}
+            toggleRandomSettingsWindow={this.toggleRandomSettingsWindow}
             trackNonProgressCharts={trackNonProgressCharts}
+            trackSpheres={trackSpheres}
             viewingEntrances={viewingEntrances}
           />
         </div>
