@@ -17,7 +17,7 @@ describe('Settings', () => {
       });
 
       test('initializes the version', () => {
-        expect(Settings.version).toEqual('master'); // TODO: change to 1.11.0
+        expect(Settings.version).toEqual('5f1bae6');
       });
 
       test('initializes the starting gear', () => {
@@ -35,10 +35,29 @@ describe('Settings', () => {
           Settings.FLAGS.DUNGEON,
           Settings.FLAGS.GREAT_FAIRY,
           Settings.FLAGS.PUZZLE_SECRET_CAVE,
+          Settings.FLAGS.COMBAT_SECRET_CAVE,
+          Settings.FLAGS.SHORT_SIDEQUEST,
+          Settings.FLAGS.LONG_SIDEQUEST,
+          Settings.FLAGS.SPOILS_TRADING,
+          Settings.FLAGS.MINIGAME,
           Settings.FLAGS.FREE_GIFT,
+          Settings.FLAGS.MAIL,
+          Settings.FLAGS.PLATFORM,
+          Settings.FLAGS.RAFT,
+          Settings.FLAGS.SUBMARINE,
+          Settings.FLAGS.EYE_REEF_CHEST,
+          Settings.FLAGS.BIG_OCTO,
+          Settings.FLAGS.GUNBOAT,
+          Settings.FLAGS.SUNKEN_TREASURE,
           Settings.FLAGS.EXPENSIVE_PURCHASE,
           Settings.FLAGS.OTHER_CHEST,
           Settings.FLAGS.MISC,
+          Settings.FLAGS.TINGLE_CHEST,
+          Settings.FLAGS.BATTLESQUID,
+          Settings.FLAGS.SAVAGE_LABYRINTH,
+          Settings.FLAGS.ISLAND_PUZZLE,
+          Settings.FLAGS.DUNGEON_SECRET,
+          Settings.FLAGS.SUNKEN_TREASURE, // Huh not sure why this one is doubled
         ]);
       });
     });
