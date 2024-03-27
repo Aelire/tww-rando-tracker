@@ -36,6 +36,96 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
+  static introductionContainer() {
+    return (
+      <div className="introduction">
+        <div className="content">
+          <div className="title">
+            TWW Randomizer Tracker Random Settings
+          </div>
+          <div className="text">
+            This tracker is intended to be used for the
+            {' '}
+            <a href="https://github.com/Aelire/wwrando/releases">Random Settings version of TWW Randomizer</a>
+            .
+            <br />
+            The purpose of this tracker is enable you to alter settings while playing
+            a random settings seed.
+            <br />
+            You can find the standard version of the tracker
+            {' '}
+            <a href="https://www.wooferzfg.me/tww-rando-tracker/">here</a>
+            .
+          </div>
+          <div className="heading">
+            Changing Settings
+          </div>
+          <div className="text">
+            The default starting state for this tracker will enable all the settings
+            and the minimum amount of starting items
+            <br />
+            When you launch the tracker, you will see a button at the bottom called &quot;
+            <u>Open Random Settings Window</u>
+            &quot;.
+            <br />
+            A pop-up will appear showing the same visuals as the launcher,
+            allowing you change settings as required.
+            <br />
+            From there you can make adjustments to the settings, and press apply at the bottom.
+            The tracker will reflect the changes you have made.
+          </div>
+          <div className="heading">
+            Toggle States
+          </div>
+          <div className="text">
+            The settings window within the tracker will now show a three-way toggle.
+            <ul>
+              <li>
+                &quot;Off&quot; (Toggle to the left and red)
+                - The setting is turned off.
+              </li>
+              <li>
+                &quot;On&quot; (Toggle is at the centre and grey)
+                - This setting is turned on.
+              </li>
+              <li>
+                &quot;Certain&quot; (Toggle is to the right and blue)
+                - Locations with these settings will additionally have an underline.
+              </li>
+            </ul>
+          </div>
+          <div className="heading">
+            Tracking starting items
+          </div>
+          <div className="text">
+            To change the starting items of the seed (for sphere tracking), click the
+            &quot;Starting Item Selection&quot; button.
+            <br />
+            This will put the tracker in starting item selection mode, where any items you select
+            will be considered as
+            starting items for the purpose of sphere tracking
+            <br />
+            Click the &quot;Starting Item Selection&quot; button again to go back to tracking
+            items obtained during play
+          </div>
+          <div className="heading">
+            Additional Information
+          </div>
+          <div className="text">
+            <ul>
+              <li>
+                <a href="https://docs.google.com/document/d/1qMvuXvK0GhdKK-_elmzCJmpEU2a5ec18554MOSXn4c0">Hint Stones locations</a>
+              </li>
+              <li>
+                <a href="https://drive.google.com/file/d/1mPhzoxL0wAPs7-a5Q1tM5AOx5jpb3lx9/view">Caves Interior Guide (for randomized entrances)</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   constructor() {
     super();
 
@@ -424,6 +514,7 @@ export default class Launcher extends React.PureComponent {
             />
           </div>
           <div className="settings">
+            {Launcher.introductionContainer()}
             {this.progressItemLocationsTable()}
             {this.entranceRandomizerOptionsTable()}
             {this.additionalOptionsTable()}
@@ -431,8 +522,11 @@ export default class Launcher extends React.PureComponent {
             {this.launchButtonContainer()}
           </div>
           <div className="attribution">
-            <span>Maintained by wooferzfg • Original Tracker by BigDunka • </span>
-            <a href={`https://github.com/wooferzfg/tww-rando-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
+            <span>
+              Maintained by wooferzfg, random settings changes by Colfra and Natolumin
+              • Original Tracker by BigDunka •
+            </span>
+            <a href={`https://github.com/Aelire/tww-rando-tracker/commit/${COMMIT_HASH}`} target="_blank" rel="noreferrer">
               Version:
               {' '}
               {COMMIT_HASH}
