@@ -701,6 +701,12 @@ class LogicHelper {
     );
   }
 
+  static isLockedStartingItem(itemName) {
+    return itemName === LogicHelper.ITEMS.WINDS_REQUIEM
+    || itemName === LogicHelper.ITEMS.BOATS_SAIL
+    || itemName === LogicHelper.ITEMS.WIND_WAKER;
+  }
+
   static _prettyNameOverride(itemName, itemCount = 1) {
     return _.get(PRETTY_ITEM_NAMES, [itemName, itemCount]);
   }

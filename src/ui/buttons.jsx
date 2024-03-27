@@ -24,11 +24,13 @@ class Buttons extends React.PureComponent {
       settingsWindowOpen,
       onlyProgressLocations,
       randomSettingsWindowOpen,
+      startingItemSelection,
       toggleChartList,
       toggleSettingsWindow,
       toggleEntrances,
       toggleOnlyProgressLocations,
       toggleRandomSettingsWindow,
+      toggleStartingItemSelection,
       trackNonProgressCharts,
       viewingEntrances,
     } = this.props;
@@ -47,9 +49,12 @@ class Buttons extends React.PureComponent {
     const randomSettingsWindowText = randomSettingsWindowOpen
       ? 'Close Random Settings Window'
       : 'Open Random Settings Window';
+    const startingItemSelectionText = startingItemSelection
+      ? 'Disable Starting Item Selection'
+      : 'Enable Starting Item Selection';
 
     return (
-      <div className="buttons">
+      <div className={`buttons ${startingItemSelection ? 'darken-background-z-index' : ''}`}>
         <button
           onClick={toggleOnlyProgressLocations}
           type="button"
@@ -92,6 +97,13 @@ class Buttons extends React.PureComponent {
         >
           {randomSettingsWindowText}
         </button>
+        <button
+          onClick={toggleStartingItemSelection}
+          type="button"
+        >
+          <input type="checkbox" className="button-checkbox" checked={startingItemSelection} readOnly />
+          {startingItemSelectionText}
+        </button>
       </div>
     );
   }
@@ -102,11 +114,13 @@ Buttons.propTypes = {
   onlyProgressLocations: PropTypes.bool.isRequired,
   saveData: PropTypes.string.isRequired,
   randomSettingsWindowOpen: PropTypes.bool.isRequired,
+  startingItemSelection: PropTypes.bool.isRequired,
   settingsWindowOpen: PropTypes.bool.isRequired,
   toggleChartList: PropTypes.func.isRequired,
   toggleEntrances: PropTypes.func.isRequired,
   toggleOnlyProgressLocations: PropTypes.func.isRequired,
   toggleRandomSettingsWindow: PropTypes.func.isRequired,
+  toggleStartingItemSelection: PropTypes.func.isRequired,
   toggleSettingsWindow: PropTypes.func.isRequired,
   trackNonProgressCharts: PropTypes.bool.isRequired,
   viewingEntrances: PropTypes.bool.isRequired,
