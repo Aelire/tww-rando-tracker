@@ -405,6 +405,7 @@ class Tracker extends React.PureComponent {
   async updateLogic(options = {}) {
     const { newCertainSettings, newOptions } = options;
     const { trackerState } = this.state;
+    const savedRequiredBosses = LogicHelper.nonRequiredBossDungeons;
 
     if (newOptions) {
       Settings.updateOptions(newOptions);
@@ -413,6 +414,7 @@ class Tracker extends React.PureComponent {
       Settings.updateCertainSettings(newCertainSettings);
     }
     await TrackerController.refreshLogic();
+    LogicHelper.nonRequiredBossDungeons = savedRequiredBosses;
 
     const { logic: newLogic } = TrackerController.refreshState(trackerState);
 
