@@ -4,7 +4,7 @@ import React from 'react';
 
 class RequirementsTooltip extends React.PureComponent {
   render() {
-    const { requirements } = this.props;
+    const { locationTypes, requirements } = this.props;
 
     const requirementsList = _.map(requirements, (elements, rowIndex) => (
       <li key={rowIndex}>
@@ -18,6 +18,11 @@ class RequirementsTooltip extends React.PureComponent {
 
     return (
       <div className="tooltip">
+        {locationTypes && (
+        <div className="tooltip-title">
+          {`Settings: ${locationTypes}`}
+        </div>
+        )}
         <div className="tooltip-title">Items Required</div>
         <ul>
           {requirementsList}
@@ -27,6 +32,9 @@ class RequirementsTooltip extends React.PureComponent {
   }
 }
 
+RequirementsTooltip.defaultProps = {
+  locationTypes: null,
+};
 RequirementsTooltip.propTypes = {
   requirements: PropTypes.arrayOf(PropTypes.arrayOf(
     PropTypes.exact({
@@ -34,6 +42,7 @@ RequirementsTooltip.propTypes = {
       text: PropTypes.string,
     }),
   )).isRequired,
+  locationTypes: PropTypes.string,
 };
 
 export default RequirementsTooltip;

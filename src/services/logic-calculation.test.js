@@ -580,6 +580,21 @@ describe('LogicCalculation', () => {
       });
     });
 
+    test('returns the correct locations for Western Fairy Island', () => {
+      const locationsList = logic.locationsList('Western Fairy Island', {
+        isDungeon: false,
+        onlyProgressLocations: true,
+        disableLogic: false,
+      });
+
+      expect(locationsList).toEqual([
+        {
+          location: 'Great Fairy',
+          color: LogicCalculation.LOCATION_COLORS.UNAVAILABLE_LOCATION,
+        },
+      ]);
+    });
+
     describe('when showing non-progress locations', () => {
       test('returns the correct counts for the Forsaken Fortress island', () => {
         const locationCounts = logic.locationCounts('Forsaken Fortress Sector', {

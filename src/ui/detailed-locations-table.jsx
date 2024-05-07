@@ -2,6 +2,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Locations from '../services/locations';
 import LogicCalculation from '../services/logic-calculation';
 import LogicHelper from '../services/logic-helper';
 import Permalink from '../services/permalink';
@@ -24,26 +25,27 @@ class DetailedLocationsTable extends React.PureComponent {
     this.detailedLocation = this.detailedLocation.bind(this);
   }
 
-  requirementsTooltip(generalLocation, detailedLocation) {
+  requirementsTooltip(generalLocation, detailedLocation, locationTypes) {
     const { logic } = this.props;
 
     const requirements = logic.formattedRequirementsForLocation(generalLocation, detailedLocation);
 
     return (
-      <RequirementsTooltip requirements={requirements} />
+      <RequirementsTooltip locationTypes={locationTypes} requirements={requirements} />
     );
   }
 
-  itemTooltip(generalLocation, detailedLocation) {
+  itemTooltip(generalLocation, detailedLocation, locationTypes) {
     const { trackerState } = this.props;
 
     const itemForLocation = trackerState.getItemForLocation(generalLocation, detailedLocation);
 
-    if (_.isNil(itemForLocation)) {
+    if (_.isNil(itemForLocation) && _.isNil(locationTypes)) {
       return null;
     }
 
-    const prettyItemName = LogicHelper.prettyNameForItem(itemForLocation, null);
+    const prettyItemName = !_.isNil(itemForLocation)
+      ? LogicHelper.prettyNameForItem(itemForLocation, null) : null;
 
     let chartLeadsTo;
     if (LogicHelper.isRandomizedChart(itemForLocation)) {
@@ -58,8 +60,17 @@ class DetailedLocationsTable extends React.PureComponent {
 
     return (
       <div className="tooltip">
-        <div className="tooltip-title">Item at Location</div>
-        <div>{prettyItemName}</div>
+        {locationTypes && (
+        <div className="tooltip-title">
+          {`Settings: ${locationTypes}`}
+        </div>
+        )}
+        {prettyItemName && (
+        <>
+          <div className="tooltip-title">Item at Location</div>
+          <div>{prettyItemName}</div>
+        </>
+        )}
         {chartLeadsTo}
       </div>
     );
@@ -118,11 +129,28 @@ class DetailedLocationsTable extends React.PureComponent {
 
     const isLocationChecked = color === LogicCalculation.LOCATION_COLORS.CHECKED_LOCATION;
 
+    const locationTypes = Locations.getLocation(
+      openedLocation,
+      location,
+      Locations.KEYS.TYPES,
+    );
+
+    const locationSettings = locationTypes
+      ? LogicHelper.locationTypeToSetting(locationTypes) : null;
+
     let locationContent;
     if (disableLogic || isLocationChecked) {
       let itemTooltip = null;
       if (trackSpheres) {
-        itemTooltip = this.itemTooltip(openedLocation, location);
+        itemTooltip = this.itemTooltip(openedLocation, location, locationSettings);
+      } else if (locationSettings) {
+        itemTooltip = (
+          <div className="tooltip">
+            <div className="tooltip-title">
+              {`Settings: ${locationSettings}`}
+            </div>
+          </div>
+        );
       }
 
       locationContent = (
@@ -131,7 +159,11 @@ class DetailedLocationsTable extends React.PureComponent {
         </Tooltip>
       );
     } else {
-      const requirementsTooltip = this.requirementsTooltip(openedLocation, location);
+      const requirementsTooltip = this.requirementsTooltip(
+        openedLocation,
+        location,
+        locationSettings,
+      );
 
       locationContent = (
         <Tooltip tooltipContent={requirementsTooltip}>
