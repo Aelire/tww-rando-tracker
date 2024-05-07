@@ -131,6 +131,7 @@ export default class Launcher extends React.PureComponent {
     );
   }
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
   permalinkContainer() {
     const { permalink } = this.state;
 
@@ -423,7 +424,6 @@ export default class Launcher extends React.PureComponent {
             />
           </div>
           <div className="settings">
-            {this.permalinkContainer()}
             {this.progressItemLocationsTable()}
             {this.entranceRandomizerOptionsTable()}
             {this.additionalOptionsTable()}
